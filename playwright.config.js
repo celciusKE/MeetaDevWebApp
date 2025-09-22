@@ -77,5 +77,10 @@ export default defineConfig({
   //   url: 'http://localhost:3000',
   //   reuseExistingServer: !process.env.CI,
   // },
-});
+});// ...existing code...
+module.exports = {
+  testMatch: ['**/*.spec.js', '**/*.js'], // runs files ending with .spec.js or .test.js
+  // ...other config...
+};
+// ...existing code...
 

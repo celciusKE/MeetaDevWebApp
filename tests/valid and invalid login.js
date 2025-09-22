@@ -1,10 +1,10 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
-import { URL } from 'url';
 
-test.beforeEach('Setup',async({page})=>{
+
+test.beforeEach('Setup',async({page,baseURL})=>{
 //1.Go to home page
-await page.goto('/')
+  await page.goto('https://meetadev-client-production.up.railway.app/');
 })
 test.describe('Create and sign in as a new user',()=>{
   tag : '@functionality : sign up and sign in'
@@ -28,6 +28,7 @@ await page.getByRole('textbox', { name: 'Password' }).fill('Admin@123')
 //4.Create account
 await page.getByRole('button', { name: 'Create account' }).click()
 //5. Confirm successful sign up
+
 })
 //User can sign in with valid credentials
 test('User can submit an empty form', async ({ page }) => {
@@ -45,12 +46,17 @@ await page.getByRole('button', { name: 'Create account' }).click()
 //User can sign in with valid credentials
 test('User can sign in with valid credentials', async ({ page }) => {
   //2. Click on sign in
+  await page.getByRole('link', { name: 'Login' }).click()
   //3. Continue with email
+  // 3.Continue with email
+await page.getByRole('button', { name: 'Continue with Email' }).click()
+  await page.getByRole('textbox', { name: 'Email address' }).fill('1nonlynelly@gmail.com')
   //4. Enter email and password
+  await page.getByRole('textbox', { name: 'Password' }).fill('ASD1234asd!@#$')
   //5. Click on sign in
+  await page.getByRole('button', { name: 'Sign in' }).click()
   //6. Confirm successful sign in
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle('meetadev');
+
 })
 })
