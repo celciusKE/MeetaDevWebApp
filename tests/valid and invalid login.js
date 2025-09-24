@@ -1,4 +1,3 @@
-// @ts-check
 import { test, expect } from '@playwright/test';
 import {LoginPage,SignUpPage} from '../pages/login.js'
 
@@ -41,17 +40,16 @@ await page.getByRole('button', { name: 'Continue with Email' }).click()
 await page.getByRole('button', { name: 'Create account' }).click()
 //5.Expect an error message
 
-
-
 })
 
 
 test('login as existing user',async({page})=>{
 //call login method and enter valid credentials
 const loginExistingUser = new LoginPage(page);
-await loginExistingUser.login('1nonlynelly@gmail.com','ASD1234asd!@#$')
-//validate successful login
+await loginExistingUser.login('cliffosego2000@gmail.com','Password123*')
 
+//validate successful login
+await page.getByText('Logged in successfully').waitFor();
 
 })
 //User can sign in with invalid credentials
