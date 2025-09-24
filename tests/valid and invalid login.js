@@ -1,5 +1,6 @@
 // @ts-check
 import { test, expect } from '@playwright/test';
+import {LoginPage,SignUpPage} from '../pages/login.js'
 
 
 test.beforeEach('Setup',async({page,baseURL})=>{
@@ -16,21 +17,21 @@ test.describe('Create and sign in as a new user',()=>{
 
 //User can sign up for an account
 test('User can sign up for an account',async({page}) => {
-//2.Click on sign up with email
-await page.getByRole('button', { name: 'Sign Up' }).click()
-// await expect(page).toHaveTitle('signup');
-await page.getByRole('button', { name: 'Continue with Email' }).click()
-//3.Fill out form
-await page.getByRole('textbox', { name: 'First Name' }).fill('Jane')
-await page.getByRole('textbox', { name: 'Last Name' }).fill('Doe')
-await page.getByRole('textbox', { name: 'Email address' }).fill('gaudencianellyb@getMaxListeners.com')
-await page.getByRole('textbox', { name: 'Password' }).fill('Admin@123')
-//4.Create account
-await page.getByRole('button', { name: 'Create account' }).click()
-//5. Confirm successful sign up
+const signUpNewUser = new SignUpPage(page);
+await signUpNewUser.SignUp('charleneRuto@getMaxListeners.com','Pass1234*')
+//expect success response
 
 })
-//User can sign in with valid credentials
+//rerun first test to valid existing user
+test('User can reuse credentials to sign up for an account',async({page}) => {
+const signUpNewUser = new SignUpPage(page);
+await signUpNewUser.SignUp('charleneRuto@getMaxListeners.com','Pass1234*')
+//expect failure response
+
+
+})
+
+//User can submit an empty form
 test('User can submit an empty form', async ({ page }) => {
   //2.Click on sign up
 await page.getByRole('button', { name: 'Sign Up' }).click()
@@ -43,20 +44,21 @@ await page.getByRole('button', { name: 'Create account' }).click()
 
 
 })
-//User can sign in with valid credentials
-test('User can sign in with valid credentials', async ({ page }) => {
-  //2. Click on sign in
-  await page.getByRole('link', { name: 'Login' }).click()
-  //3. Continue with email
-  // 3.Continue with email
-await page.getByRole('button', { name: 'Continue with Email' }).click()
-  await page.getByRole('textbox', { name: 'Email address' }).fill('1nonlynelly@gmail.com')
-  //4. Enter email and password
-  await page.getByRole('textbox', { name: 'Password' }).fill('ASD1234asd!@#$')
-  //5. Click on sign in
-  await page.getByRole('button', { name: 'Sign in' }).click()
-  //6. Confirm successful sign in
 
 
+test('login as existing user',async({page})=>{
+//call login method and enter valid credentials
+const loginExistingUser = new LoginPage(page);
+await loginExistingUser.login('1nonlynelly@gmail.com','ASD1234asd!@#$')
+//validate successful login
+
+
+})
+//User can sign in with invalid credentials
+test('User can sign in with invalid credentials', async ({ page }) => {
+  const logininvalidUser = new LoginPage(page);
+  await logininvalidUser.login('1nonlynelly@gmail.com','ASD1234asd!@#$')
+
+  //expected outcome : error message
 })
 })
